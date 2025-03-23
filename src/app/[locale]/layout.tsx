@@ -1,14 +1,16 @@
 import type { Metadata } from 'next';
-import { DemoBadge } from '@/components/DemoBadge';
 import arcjet, { detectBot, request } from '@/libs/Arcjet';
 import { Env } from '@/libs/Env';
 import { routing } from '@/libs/i18nNavigation';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import '@/styles/global.css';
 
 export const metadata: Metadata = {
+  title: {
+    default: 'Meal Seeker',
+    template: '%s | Vidu platform',
+  },
   icons: [
     {
       rel: 'apple-touch-icon',
@@ -80,7 +82,6 @@ export default async function RootLayout(props: {
   }
 
   // Using internationalization in Client Components
-  const messages = await getMessages();
 
   // The `suppressHydrationWarning` attribute in <body> is used to prevent hydration errors caused by Sentry Overlay,
   // which dynamically adds a `style` attribute to the body tag.
@@ -88,15 +89,13 @@ export default async function RootLayout(props: {
   return (
     <html lang={locale}>
       <body suppressHydrationWarning>
-        <NextIntlClientProvider
-          locale={locale}
-          messages={messages}
-        >
-          {props.children}
 
-          <DemoBadge />
-        </NextIntlClientProvider>
+
+
+        {props.children}
+
+        {/* <DemoBadge /> */}
       </body>
-    </html>
+    </html >
   );
 }
