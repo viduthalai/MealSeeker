@@ -1,16 +1,14 @@
-
-import { getTranslations, setRequestLocale } from 'next-intl/server';
-import Link from 'next/link';
-
-
 import { LoginButton } from '@/components/home/LoginButton';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+
+import Link from 'next/link';
 import '../../../styles/home.css';
+
 type IIndexProps = {
   params: Promise<{ locale: string }>;
 };
 
 export async function generateMetadata(props: IIndexProps) {
-
   const { locale } = await props.params;
   const t = await getTranslations({
     locale,
@@ -33,8 +31,8 @@ export default async function Index(props: IIndexProps) {
   // });
 
   return (
-    <div >
-      <div className='flex justify-center mt-15'>
+    <div className="home-bg">
+      <div className="flex justify-center mt-15">
         {/* <img width="200px" src="/logo.png" /> */}
         <h1 className="text-5xl text-cyan-50 font-bold">Meal Seeker</h1>
       </div>
@@ -42,14 +40,14 @@ export default async function Index(props: IIndexProps) {
       <div className="flex justify-between text-3xl text-white text-center font-bold mt-110 p-6">
         Help your path to health goals with happiness
       </div>
-      <div className='pl-6 pr-6 text-center'>
+      <div className="pl-6 pr-6 text-center">
 
         <LoginButton />
-        <Link className='text-white font-bold' href="/signup">
+        <Link className="text-white font-bold" href="/signup">
           Create new account
         </Link>
       </div>
 
-    </div >
+    </div>
   );
 };

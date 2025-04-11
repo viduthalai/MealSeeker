@@ -1,15 +1,12 @@
-import { AppConfig } from '@/utils/AppConfig';
-import { useTranslations } from 'next-intl';
-
 export const BaseTemplate = (props: {
   leftNav: React.ReactNode;
   rightNav?: React.ReactNode;
   children: React.ReactNode;
 }) => {
-  //const t = useTranslations('BaseTemplate');
+  // const t = useTranslations('BaseTemplate');
 
   return (
-    <div className=" home-bg w-full px-1 text-gray-700 antialiased">
+    <div className="  w-full px-1 text-gray-700 antialiased">
       <div className="mx-auto max-w-screen-md">
         {/* <header className="border-b border-gray-300">
           <div className="pb-8 pt-16">
@@ -38,7 +35,7 @@ export const BaseTemplate = (props: {
 
         {/* <footer className="border-t border-gray-300 py-8 text-center text-sm">
           {`© Copyright ${new Date().getFullYear()} ${AppConfig.name}. `}
-         
+
         </footer> */}
       </div>
     </div>

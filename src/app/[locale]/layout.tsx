@@ -90,12 +90,10 @@ export default async function RootLayout(props: {
     <html lang={locale}>
       <body suppressHydrationWarning>
 
-
-
         {props.children}
 
         {/* <DemoBadge /> */}
       </body>
-    </html >
+    </html>
   );
 }

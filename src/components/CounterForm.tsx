@@ -3,16 +3,17 @@
 import type { z } from 'zod';
 import { CounterValidation } from '@/validations/CounterValidation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export const CounterForm = () => {
-  const t = useTranslations('CounterForm');
+  const searchParams = useSearchParams();
+  const paramValue = searchParams.get('id'); // Replace 'paramName' with your query parameter key
+
   const form = useForm<z.infer<typeof CounterValidation>>({
     resolver: zodResolver(CounterValidation),
     defaultValues: {
-      increment: 0,
+      increment: 1,
     },
   });
   const router = useRouter();
@@ -22,6 +23,7 @@ export const CounterForm = () => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'x-e2e-random-id': paramValue ?? '1',
       },
       body: JSON.stringify(data),
     });
@@ -32,10 +34,10 @@ export const CounterForm = () => {
 
   return (
     <form onSubmit={handleIncrement}>
-      <p>{t('presentation')}</p>
+      <p>presentation</p>
       <div>
         <label className="text-sm font-bold text-gray-700" htmlFor="increment">
-          {t('label_increment')}
+          <span className="text-gray-500">Increment by</span>
           <input
             id="increment"
             type="number"
@@ -55,7 +57,7 @@ export const CounterForm = () => {
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          {t('button_increment')}
+          Increment
         </button>
       </div>
     </form>
