@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { cuisineTypes, dietaryRestrictions, MenuList as menuItemsList } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -47,13 +48,15 @@ export const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: 'vvv',
+      email: 'vidu@sdafd.com',
+      password: 'dafasdfas',
       dietaryRestrictions: [],
       menuList: menuItemsList.map(item => item.id.toString()),
     },
   });
+  console.log('🚀 ~ Register ~ form:', form.formState.isSubmitting);
+  console.log('🚀 ~ Register ~ form:', form.formState.isSubmitted);
 
   const nextStep = () => {
     if (step === 'personal') {
@@ -88,30 +91,30 @@ export const Register = () => {
     console.log('Form submitted with values:', values);
     // Mock storage for demonstration
 
-    const data = {
-      name: values.name,
-      email: values.email,
-      password: values.password,
-      menu_ids: values.menuList?.join(','),
-    };
+    // const data = {
+    //   name: values.name,
+    //   email: values.email,
+    //   password: values.password,
+    //   menu_ids: values.menuList?.join(','),
+    // };
 
-    const result = await fetch(`/api/visitor`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    const res = await result.json();
-    // Navigate to home page
-    if (res?.status === 'success') {
-      localStorage.setItem('mealSeekerUser', JSON.stringify({
-        userId: res?.user_id,
-        name: res?.name,
-      }));
+    // const result = await fetch(`/api/visitor`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+    // const res = await result.json();
+    // // Navigate to home page
+    // if (res?.status === 'success') {
+    //   localStorage.setItem('mealSeekerUser', JSON.stringify({
+    //     userId: res?.user_id,
+    //     name: res?.name,
+    //   }));
 
-      navigate('/member');
-    }
+    //   navigate('/member');
+    // }
   };
 
   return (
@@ -120,7 +123,7 @@ export const Register = () => {
         {/* <StatusBar /> */}
         <main className="mt-3">
           <div className="mb-8">
-            <button type="button" onClick={() => navigate('/')} className="text-[#70B9BE] text-sm">
+            <button type="button" onClick={() => navigate('/')} className="text-[#70B9BE] text-md font-bold">
               &larr; Back
             </button>
             <h1 className="text-2xl font-bold mt-4 text-[#0A2533]">
@@ -324,11 +327,7 @@ export const Register = () => {
                                       >
                                         {item.item}
                                       </label>
-                                      {/* <div className="text-xs text-muted-foreground">
-                                                                                <Badge className='m-1' variant={item.breakfast ? "default" : "outline"}>Breakfast</Badge>
-                                                                                <Badge className='m-1' variant={item.lunch ? "default" : "outline"}>Lunch</Badge>
-                                                                                <Badge className='m-1' variant={item.dinner ? "default" : "outline"}>Dinner</Badge>
-                                                                            </div> */}
+
                                     </div>
                                   </div>
 
@@ -338,59 +337,16 @@ export const Register = () => {
                           />
                         ))}
                       </div>
+
                       <FormMessage />
+
                     </FormItem>
                   )}
                 />
               )}
 
-              {/* {step === 'confirmation' && (
-                                <div className="space-y-6">
-                                    <div>
-                                        <h3 className="font-medium text-lg">Your Information</h3>
-                                        <p>
-                                            Name:
-                                            {form.getValues().name}
-                                        </p>
-                                        <p>
-                                            Email:
-                                            {form.getValues().email}
-                                        </p>
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-medium text-lg">Your Dietary Restrictions</h3>
-                                        {form.getValues().dietaryRestrictions?.length
-                                            ? (
-                                                <ul className="list-disc pl-5">
-                                                    {form.getValues().dietaryRestrictions?.map(id => (
-                                                        <li key={id}>{dietaryRestrictions.find(item => item.id === id)?.label}</li>
-                                                    ))}
-                                                </ul>
-                                            )
-                                            : (
-                                                <p>No dietary restrictions selected</p>
-                                            )}
-                                    </div>
-
-                                    <div>
-                                        <h3 className="font-medium text-lg">Your Cuisine Preferences</h3>
-                                        {form.getValues().menuList?.length
-                                            ? (
-                                                <ul className="list-disc pl-5">
-                                                    {form.getValues().menuList?.map(id => (
-                                                        <li key={id}>{cuisineTypes.find(item => item.id === id)?.label}</li>
-                                                    ))}
-                                                </ul>
-                                            )
-                                            : (
-                                                <p>No cuisine preferences selected</p>
-                                            )}
-                                    </div>
-                                </div>
-                            )} */}
-
               <div className="flex justify-between pt-4">
+
                 {step !== 'personal' && (
                   <Button
                     type="button"
@@ -419,13 +375,25 @@ export const Register = () => {
                 {step === 'menuList' && (
                   <Button
                     className="bg-[#70B9BE] hover:bg-[#5da8ae]"
+                    variant="destructive"
                     type="submit"
+                    disabled={form.formState.isSubmitted}
                   >
+
                     Complete Registration
+
+                    {
+                      form.formState.isSubmitted && <Loader2 className="animate-spin" />
+                    }
                   </Button>
                 )}
 
               </div>
+              {step === 'menuList' && (
+                <div className="text-[#4071b0] text-sm">
+                  Please complete Registration to add menu items to your list
+                </div>
+              )}
             </form>
           </Form>
         </main>

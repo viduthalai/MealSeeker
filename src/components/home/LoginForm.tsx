@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -109,8 +110,11 @@ export const LoginForm = () => {
                 </div>
               )
             }
-            <Button type="submit" className="w-full mb-3">
+            <Button type="submit" className="w-full mb-3" disabled={form.formState.isSubmitted}>
               Login
+              {
+                form.formState.isSubmitted && <Loader2 className="animate-spin" />
+              }
             </Button>
             <Link className="text-white font-bold" href="/menu">
               Create new account

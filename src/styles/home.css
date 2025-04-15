@@ -10,8 +10,14 @@
   right: 0;
   bottom: 0;
   width: 100%;
+  height: 100vh; /* Set height to 100% of the viewport */
+  overflow: hidden; /* Prevent scrolling issues */
 }
-
-.home-bg p {
+@supports (-webkit-touch-callout: none) {
+  .home-bg {
+    height: -webkit-fill-available; /* Use this for iOS Safari */
+  }
+}
+p {
   margin: 0;
 }
