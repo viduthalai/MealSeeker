@@ -1,6 +1,7 @@
 .home-bg {
   background-image: url('../components/home/homeBg.svg');
   background-size: cover;
+  background-color: #70b9be;
   background-position: center;
   background-repeat: no-repeat;
   position: absolute;

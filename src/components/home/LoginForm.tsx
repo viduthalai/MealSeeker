@@ -112,7 +112,7 @@ export const LoginForm = () => {
             <Button type="submit" className="w-full mb-3">
               Login
             </Button>
-            <Link className="text-white font-bold" href="/signup">
+            <Link className="text-white font-bold" href="/menu">
               Create new account
             </Link>
           </form>
