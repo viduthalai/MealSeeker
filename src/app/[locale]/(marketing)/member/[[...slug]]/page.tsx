@@ -9,8 +9,7 @@ type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
 };
 
-// eslint-disable-next-line unused-imports/no-unused-vars
-export async function generateMetadata(props: IAboutProps) {
+export async function generateMetadata() {
   return {
     title: 'Member Home',
     description: 'Member Home',
