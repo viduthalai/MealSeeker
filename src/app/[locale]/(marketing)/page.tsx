@@ -1,7 +1,5 @@
-import { LoginButton } from '@/components/home/LoginButton';
+import { LoginForm } from '@/components/home/LoginForm';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-
-import Link from 'next/link';
 import '../../../styles/home.css';
 
 type IIndexProps = {
@@ -37,15 +35,11 @@ export default async function Index(props: IIndexProps) {
         <h1 className="text-5xl text-cyan-50 font-bold">Meal Seeker</h1>
       </div>
       <div className="text-center font-bold text-gray-600">Get Cooking, Faster</div>
-      <div className="flex justify-between text-3xl text-white text-center font-bold mt-110 p-6">
+      <div className="flex justify-between text-3xl text-gray-900 text-center font-bold mt-60 p-6">
         Help your path to health goals with happiness
       </div>
       <div className="pl-6 pr-6 text-center">
-
-        <LoginButton />
-        <Link className="text-white font-bold" href="/signup">
-          Create new account
-        </Link>
+        <LoginForm />
       </div>
 
     </div>

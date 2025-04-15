@@ -20,7 +20,7 @@ export async function generateMetadata(props: {
 }
 
 export default function Counter({ searchParams }: { searchParams: { [key: string]: string } }) {
-  console.log("🚀 ~ Counter vidu ~ searchParams:", searchParams.id)
+  console.log('🚀 ~ Counter vidu ~ searchParams:', searchParams.id);
 
   return (
     <>
@@ -28,7 +28,7 @@ export default function Counter({ searchParams }: { searchParams: { [key: string
 
       <div className="mt-3">
         <Suspense fallback={<p>Loading</p>}>
-          <CurrentCount id={searchParams.id} />
+          <CurrentCount id={searchParams.id || ''} />
         </Suspense>
       </div>
 

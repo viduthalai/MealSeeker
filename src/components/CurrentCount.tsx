@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm';
 import { getTranslations } from 'next-intl/server';
 import { headers } from 'next/headers';
 
-export const CurrentCount = async ({ id: cid = "0" }: { id: string }) => {
+export const CurrentCount = async ({ id: cid = '0' }: { id: string }) => {
   const t = await getTranslations('CurrentCount');
 
   // `x-e2e-random-id` is used for end-to-end testing to make isolated requests

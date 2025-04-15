@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Footer } from '@/components/Footer';
 import arcjet, { detectBot, request } from '@/libs/Arcjet';
 import { Env } from '@/libs/Env';
 import { routing } from '@/libs/i18nNavigation';
@@ -92,7 +93,7 @@ export default async function RootLayout(props: {
 
         {props.children}
 
-        {/* <DemoBadge /> */}
+        <Footer />
       </body>
     </html>
   );

@@ -1,16 +1,24 @@
-import { defaultMenuListItem, MenuList, MenuListItem } from "@/lib/constants";
+import type { MenuListItem } from '@/lib/constants';
+import { cuisineList, MenuList } from '@/lib/constants';
 
+// eslint-disable-next-line no-restricted-syntax
 const enum MealType {
-  Breakfast = "Breakfast",
-  Lunch = "Lunch",
-  Dinner = "Dinner"
+  Breakfast = 'Breakfast',
+  Lunch = 'Lunch',
+  Dinner = 'Dinner',
 }
 
+// eslint-disable-next-line no-restricted-syntax
 const enum MealTime {
-  Morning = "Morning",
-  Afternoon = "Afternoon",
-  Evening = "Evening"
+  Morning = 'Morning',
+  Afternoon = 'Afternoon',
+  Evening = 'Evening',
 }
+
+export const getCuisineDetails = (cuisineId: number): typeof cuisineList[0] | undefined => {
+  const cuisine = cuisineList.find(item => item.id === cuisineId.toString());
+  return cuisine;
+};
 
 export const getMealTime = (): MealTime => {
   const hour = new Date().getHours();
@@ -21,24 +29,21 @@ export const getMealTime = (): MealTime => {
   } else {
     return MealTime.Evening;
   }
-}
+};
 
 export function getGreeting(): string {
   const type = getMealTime();
 
   if (type === MealTime.Morning) {
-    return "Good Morning";
+    return 'Good Morning';
   } else if (type === MealTime.Afternoon) {
-    return "Good Afternoon";
+    return 'Good Afternoon';
   } else {
-    return "Good Evening";
+    return 'Good Evening';
   }
 }
 
-
-
 export function getMealType(): string {
-
   const type = getMealTime();
   if (type === MealTime.Morning) {
     return MealType.Breakfast;
@@ -60,10 +65,9 @@ export function getMealListByType(MenuList: MenuListItem[]): MenuListItem[] {
   }
 }
 
-export function getRandomMenuItem(): MenuListItem {
-
-
-  let filteredMenu = getMealListByType(MenuList);
+export function getRandomMenuItem(menu = MenuList): MenuListItem {
+  // console.log('🚀 ~ getRandomMenuItem ~ menu:', menu);
+  const filteredMenu = getMealListByType(menu);
 
   // Randomly select an item from the filtered menu
   const randomIndex = Math.floor(Math.random() * filteredMenu.length);
@@ -72,6 +76,5 @@ export function getRandomMenuItem(): MenuListItem {
   if (filteredMenu[randomIndex]) {
     return filteredMenu[randomIndex];
   }
-  return defaultMenuListItem;
-
+  return MenuList[0] as MenuListItem;
 }

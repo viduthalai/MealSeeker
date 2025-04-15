@@ -10,3 +10,7 @@
   bottom: 0;
   width: 100%;
 }
+
+.home-bg p {
+  margin: 0;
+}
