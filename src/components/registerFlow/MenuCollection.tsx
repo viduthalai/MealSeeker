@@ -47,9 +47,9 @@ export const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: 'test',
-      email: 'vidu@fsd.com',
-      password: '123456',
+      name: '',
+      email: '',
+      password: '',
       dietaryRestrictions: [],
       menuList: menuItemsList.map(item => item.id.toString()),
     },
@@ -148,7 +148,7 @@ export const Register = () => {
                       <FormItem>
                         <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Your name" {...field} />
+                          <Input placeholder="Your full name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
