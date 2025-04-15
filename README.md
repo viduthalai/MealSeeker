@@ -411,8 +411,6 @@ With the plugins installed in your VSCode, ESLint and Prettier can automatically
 
 Pro tips: if you need a project wide-type checking with TypeScript, you can run a build with <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> on Mac.
 
-
-
 ### License
 
 Licensed under the MIT License, Copyright © 2025
