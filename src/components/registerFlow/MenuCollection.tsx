@@ -48,9 +48,9 @@ export const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: 'vvv',
-      email: 'vidu@sdafd.com',
-      password: 'dafasdfas',
+      name: '',
+      email: '',
+      password: '',
       dietaryRestrictions: [],
       menuList: menuItemsList.map(item => item.id.toString()),
     },

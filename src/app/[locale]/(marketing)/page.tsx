@@ -35,13 +35,13 @@ export default async function Index(props: IIndexProps) {
         <h1 className="text-5xl text-cyan-50 font-bold">Meal Seeker</h1>
       </div>
       <div className="text-center font-bold text-gray-600">Get Cooking, Faster</div>
-      <div className="flex justify-between text-3xl text-gray-900 text-center font-bold mt-60 p-6">
-        Help your path to health goals with happiness
-      </div>
+
       <div className="pl-6 pr-6 text-center">
         <LoginForm />
       </div>
-
+      <div className="flex justify-between text-3xl text-gray-900 text-center font-bold mt-10">
+        Help your path to health goals with happiness
+      </div>
     </div>
   );
 };
