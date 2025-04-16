@@ -1,4 +1,4 @@
-import { AppSidebar } from '@/components/app-sidebar';
+import { AppSidebar } from '@/components/SidebarApp';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { setRequestLocale } from 'next-intl/server';
 
