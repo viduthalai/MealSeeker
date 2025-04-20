@@ -55,8 +55,6 @@ export const Register = () => {
       menuList: menuItemsList.map(item => item.id.toString()),
     },
   });
-  console.log('🚀 ~ Register ~ form:', form.formState.isSubmitting);
-  console.log('🚀 ~ Register ~ form:', form.formState.isSubmitted);
 
   const nextStep = () => {
     if (step === 'personal') {

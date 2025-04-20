@@ -123,4 +123,5 @@ export const cuisineList = [
 // ('18', 'Chicken thokku', 'Curry', false, true, true, 1, false, NULL, '2023-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z'),
 // ('19', 'Lemon rice', 'Main Course', false, true, false, 1, false, NULL, '2023-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z'),
 // ('20', 'Puli rice', 'Main Course', false, true, false, 1, false, NULL, '2023-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z')
+// ALTER SEQUENCE menu_list_id_seq RESTART WITH 21;
 // ON CONFLICT (id) DO NOTHING;

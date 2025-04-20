@@ -18,9 +18,9 @@ export const Footer = () => {
   useEffect(() => {
     if (userId && lastValue !== userId) {
       console.log('🚀 ~DONT change in URL :', userId);
-      localStorage.removeItem('MealUserId');
-      router.push(`/`);
-      router.refresh();
+      // localStorage.removeItem('MealUserId');
+      // router.push(`/`);
+      // router.refresh();
     }
   }, [userId, lastValue, router]);
 

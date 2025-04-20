@@ -116,7 +116,7 @@ export const LoginForm = () => {
                 form.formState.isSubmitted && <Loader2 className="animate-spin" />
               }
             </Button>
-            <Link className="text-white font-bold" href="/menu">
+            <Link className="text-white font-bold" href="/register">
               Create new account
             </Link>
           </form>

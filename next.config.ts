@@ -62,5 +62,6 @@ export default withSentryConfig(
 
     // Disable Sentry telemetry
     telemetry: false,
+
   },
 );
