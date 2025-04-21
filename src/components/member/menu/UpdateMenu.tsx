@@ -1,6 +1,6 @@
 'use client';
 
-import type { MenuListItem } from '@/lib/constants';
+import type { IMenuList, IUserList } from '@/models/Schema';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormField, FormItem } from '@/components/ui/form';
@@ -20,18 +20,18 @@ export const UpdateMenu = ({
   userDetails,
   menuList,
 }: {
-  userDetails: any;
-  menuList: MenuListItem[];
+  userDetails: IUserList;
+  menuList: IMenuList[];
 }) => {
   const [updated, setUpdated] = React.useState(false);
   const router = useRouter();
-  const defaultMenuList = userDetails?.menu_ids || [];
+  const defaultMenuList = userDetails?.menu_ids || '';
   console.log('🚀 ~ defaultMenuList:', menuList, defaultMenuList);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       menuList: defaultMenuList.length > 0
-        ? defaultMenuList.split(',').map(item => item.trim())
+        ? defaultMenuList?.split(',').map(item => item.trim())
         : [],
       // Initialize menuList with the user's existing menu IDs
     },

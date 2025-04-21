@@ -1,5 +1,6 @@
+import type { InferSelectModel } from 'drizzle-orm';
+
 import { MenuList } from '@/lib/constants';
-import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 // This file defines the structure of your database tables using the Drizzle ORM.
 
@@ -10,6 +11,12 @@ import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-o
 // The generated migration file will reflect your schema changes.
 // The migration is automatically applied during the next database interaction,
 // so there's no need to run it manually or restart the Next.js server.
+
+import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+
+// Infer the type of the `userListSchema`
+export type IUserList = InferSelectModel<typeof userListSchema>;
+export type IMenuList = InferSelectModel<typeof menuListSchema>;
 
 export const counterSchema = pgTable('counter', {
   id: serial('id').primaryKey(),

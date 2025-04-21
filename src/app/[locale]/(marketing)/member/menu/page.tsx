@@ -27,7 +27,7 @@ export default async function MenuPage(props: IAboutProps) {
     return null;
   }
 
-  const menuListData: any = await db.query.menuListSchema.findMany({
+  const menuListData = await db.query.menuListSchema.findMany({
     where: eq(menuListSchema.user_id, memberId),
   });
 
