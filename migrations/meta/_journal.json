@@ -5,85 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1725916508373,
-      "tag": "0000_init-db",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1743468458246,
-      "tag": "0001_daffy_queen_noir",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1743468500361,
-      "tag": "0002_redundant_dreadnoughts",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1743469821275,
-      "tag": "0003_naive_mister_sinister",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1743469861497,
-      "tag": "0004_minor_puppet_master",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1743470190843,
-      "tag": "0005_lumpy_richard_fisk",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1743479011187,
-      "tag": "0006_cold_charles_xavier",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1743479373038,
-      "tag": "0007_narrow_mac_gargan",
-      "breakpoints": true
-    },
-    {
-      "idx": 8,
-      "version": "7",
-      "when": 1743479522304,
-      "tag": "0008_magical_orphan",
-      "breakpoints": true
-    },
-    {
-      "idx": 9,
-      "version": "7",
-      "when": 1744587091566,
-      "tag": "0009_early_brother_voodoo",
-      "breakpoints": true
-    },
-    {
-      "idx": 10,
-      "version": "7",
-      "when": 1744587506435,
-      "tag": "0010_fast_impossible_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 11,
-      "version": "7",
-      "when": 1744593561938,
-      "tag": "0011_absurd_sheva_callister",
+      "when": 1745269863625,
+      "tag": "0000_premium_thaddeus_ross",
       "breakpoints": true
     }
   ]

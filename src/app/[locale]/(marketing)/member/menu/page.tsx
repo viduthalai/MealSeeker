@@ -1,7 +1,7 @@
 import { UpdateMenu } from '@/components/member/menu/UpdateMenu';
 import { db } from '@/libs/DB';
 import { menuListSchema, userListSchema } from '@/models/Schema';
-import { eq } from 'drizzle-orm';
+import { eq, or } from 'drizzle-orm';
 
 type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
@@ -28,7 +28,10 @@ export default async function MenuPage(props: IAboutProps) {
   }
 
   const menuListData = await db.query.menuListSchema.findMany({
-    where: eq(menuListSchema.user_id, memberId),
+    where: or(
+      eq(menuListSchema.user_id, memberId),
+      eq(menuListSchema.is_global, true), // Use `true` (lowercase) for boolean values in JavaScript
+    ),
   });
 
   return (

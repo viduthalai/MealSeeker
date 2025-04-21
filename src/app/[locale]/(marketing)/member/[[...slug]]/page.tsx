@@ -1,9 +1,9 @@
 import { GenerateMenu } from '@/components/home/GenerateMenu';
-import { getGreeting, getRandomMenuItem } from '@/components/home/utils';
+import { getGreeting, getMenuItem } from '@/components/home/utils';
 import { SunSVG } from '@/components/icons/sun';
 import { db } from '@/libs/DB';
-import { menuListSchema, userListSchema } from '@/models/Schema';
-import { eq, inArray } from 'drizzle-orm';
+import { menuListSchema, userActivitySchema, userListSchema } from '@/models/Schema';
+import { desc, eq, inArray } from 'drizzle-orm';
 
 type IAboutProps = {
   params: Promise<{ slug: string; locale: string }>;
@@ -30,15 +30,21 @@ export default async function MemberHome(props: IAboutProps) {
   const { name = 'User', menu_ids = '' } = result || {};
   const idsArray = menu_ids.split(',').map(id => Number.parseInt(id.trim(), 10)); // Convert to array of numbers
 
-  const menuListData: any = await db.query.menuListSchema.findMany({
+  const menuListData = await db.query.menuListSchema.findMany({
     where: inArray(menuListSchema.id, idsArray),
   });
 
-  const item = getRandomMenuItem(menuListData) || {};
+  const activityLimit = menuListData.length >= 10 ? 15 : menuListData.length; // Default to 15 if no menu items are found
 
-  // const cuisineDetails = await db.query.cuisineListSchema.findMany({
-  //   where: eq(cuisineListSchema.id, Number(item.cuisine_id)),
-  // });
+  const userActivity = await db.query.userActivitySchema.findMany({
+    where: eq(userActivitySchema.user_id, memberId),
+    orderBy: [desc(userActivitySchema.created_at)], // Sort by `created_at` in descending order
+    limit: activityLimit, // Limit to the last 10 activities
+  });
+
+  const item = getMenuItem(menuListData, userActivity) || {};
+
+  console.log('🚀 ~ MemberHome ~ item:', item);
 
   return (
     <>

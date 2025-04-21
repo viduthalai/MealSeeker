@@ -1,4 +1,5 @@
 import type { MenuListItem } from '@/lib/constants';
+import type { IUserActivity } from '@/models/Schema';
 import { cuisineList, MenuList } from '@/lib/constants';
 
 // eslint-disable-next-line no-restricted-syntax
@@ -15,7 +16,7 @@ const enum MealTime {
   Evening = 'Evening',
 }
 
-export const getCuisineDetails = (cuisineId: number): typeof cuisineList[0] | undefined => {
+export const getCuisineDetails = (cuisineId: string): typeof cuisineList[0] | undefined => {
   const cuisine = cuisineList.find(item => item.id === cuisineId.toString());
   return cuisine;
 };
@@ -65,16 +66,35 @@ export function getMealListByType(MenuList: MenuListItem[]): MenuListItem[] {
   }
 }
 
-export function getRandomMenuItem(menu = MenuList): MenuListItem {
-  // console.log('🚀 ~ getRandomMenuItem ~ menu:', menu);
-  const filteredMenu = getMealListByType(menu);
+export function getMenuItem(menuItems: MenuListItem[] = MenuList, userActivity: IUserActivity[]): MenuListItem {
+  const filteredMenu = getMealListByType(menuItems);
 
-  // Randomly select an item from the filtered menu
-  const randomIndex = Math.floor(Math.random() * filteredMenu.length);
+  // Get IDs of recently used items
+  const recentlyUsedIds = new Set(userActivity.map(activity => Number(activity.menu_id)));
 
-  // Handle case when filteredMenu is empty
-  if (filteredMenu[randomIndex]) {
-    return filteredMenu[randomIndex];
+  // Filter out recently used items
+  const availableMenu = filteredMenu.filter(item => !recentlyUsedIds.has(item.id));
+
+  // Return the first available menu item if any
+  if (availableMenu.length > 0) {
+    return availableMenu[0] as MenuListItem;
   }
-  return MenuList[0] as MenuListItem;
+
+  // If all items have been used, return the last used item from the filtered menu
+  const lastViewedId = [...recentlyUsedIds].pop();
+  const lastViewedItem = filteredMenu.find(item => item.id === lastViewedId);
+  if (lastViewedItem) {
+    return lastViewedItem;
+  }
+
+  // Fallback to the random item in the original menu list
+  const randomIndex = Math.floor(Math.random() * menuItems.length);
+  if (menuItems.length > 0) {
+    return menuItems[randomIndex] as MenuListItem;
+  }
+
+  return menuItems[0] as MenuListItem;
+
+  // // Throw an error if no valid menu item can be returned
+  // throw new Error('Menu list is empty. Unable to return a valid menu item.');
 }

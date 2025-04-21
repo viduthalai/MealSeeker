@@ -1,51 +1,39 @@
 'use client';
 
 import type { MenuListItem } from '@/lib/constants';
-import { MenuList } from '@/lib/constants';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { Button } from '../ui/button';
-import { getCuisineDetails, getMealListByType, getMealTime } from './utils';
+import { getCuisineDetails, getMealTime } from './utils';
 
 export function GenerateMenu({ item }: { item: MenuListItem }): React.ReactElement {
-  const [shownItems, setShownItems] = useState<number[]>([]); // Track shown item IDs
-  const [currentItem, setCurrentItem] = useState(item); // Initialize with a random item
+  // const [shownItems, setShownItems] = useState<number[]>([]); // Track shown item IDs
+  const [currentItem] = useState(item); // Initialize with a random item
+  console.log('🚀 ~ GenerateMenu ~ currentItem:', currentItem);
   const [submitted, setSubmitted] = useState('false');
+  const [cooked, setCooked] = useState('false');
+  // const [skipped, setSkipped] = useState('false');
   const mealTime = getMealTime();
+  const router = useRouter();
   // const router = useRouter();
 
-  // Function to get a random menu item that hasn't been shown yet
-  function getRandomMenuItem(excludedIds: number[]): MenuListItem {
-    const menuList = getMealListByType(MenuList);
-    const availableItems = menuList.filter(item => !excludedIds.includes(item.id));
-    if (availableItems.length === 0) {
-      return MenuList[0] as MenuListItem;
-    }
-    const randomIndex = Math.floor(Math.random() * availableItems.length);
-    if (availableItems[randomIndex]) {
-      return availableItems[randomIndex];
-    }
-    return MenuList[0] as MenuListItem;
-  }
-
   // Handle "Skip" button click
-  function handleSkip() {
-    const nextItem = getRandomMenuItem(shownItems);
-    console.log('🚀 ~ handleSkip ~ nextItem:', nextItem);
-    if (nextItem) {
-      setShownItems(prev => [...prev, nextItem.id]); // Add the new item to the shown list
-      setCurrentItem(nextItem);
-    } else {
-      // Reset when all items have been shown
-      // eslint-disable-next-line no-alert
-      alert('All menu items have been shown. Resetting the list.');
-      setShownItems([]);
-      const resetItem = getRandomMenuItem([]);
-      setCurrentItem(resetItem);
+  async function handleSkip() {
+    try {
+      // Mark the current item as skipped
+      await handleCook('skipped');
+      console.log('Item skipped successfully.');
+
+      // Navigate to the member page and refresh the router
+      router.refresh();
+      window.location.reload(); // Reload the page
+    } catch (error) {
+      console.error('Error skipping the item:', error);
     }
   }
 
   // Handle "Let's Cook it" button click
-  async function handleCook() {
+  async function handleCook(method: 'cooked' | 'skipped' = 'cooked') {
     // Implement your cooking logic here
     console.log('Cooking:', currentItem);
     if (submitted !== 'false') {
@@ -55,8 +43,10 @@ export function GenerateMenu({ item }: { item: MenuListItem }): React.ReactEleme
 
     const data = {
       user_id: 1,
-      cuisine_id: currentItem.id,
+      menu_id: currentItem.id,
       meal_time: mealTime,
+      is_skipped: method === 'skipped',
+      is_cooked: method === 'cooked',
     };
 
     const result = await fetch(`/api/member`, {
@@ -69,6 +59,10 @@ export function GenerateMenu({ item }: { item: MenuListItem }): React.ReactEleme
     const res = await result.json();
     console.log('🚀 ~ handleCook ~ res:', res);
     if (res?.user_id) {
+      if (method === 'cooked') {
+        setCooked('true');
+        console.log('Item cooked successfully.');
+      }
       setSubmitted('done');
     }
     // const nextItem = getRandomMenuItem(shownItems);
@@ -113,18 +107,18 @@ export function GenerateMenu({ item }: { item: MenuListItem }): React.ReactEleme
         submitted !== 'done'
         && (
           <Button
-            onClick={handleCook}
+            onClick={() => handleCook('cooked')}
             color="primary"
             className="mt-4   text-white rounded hover:bg-blue-600"
           >
-            {submitted === 'true' && 'Cooking...'}
+            {submitted === 'cooked' && 'Cooking...'}
             {submitted === 'false' && 'Let\'s Cook it'}
           </Button>
         )
       }
       {' '}
       {
-        submitted === 'done'
+        submitted === 'done' && cooked === 'true'
         && (
           <div className="mt-4 text-green-500">
             Thanks for using our service, enjoy your meal.

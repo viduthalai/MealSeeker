@@ -87,11 +87,14 @@ export const userListSchema = pgTable('user_list', {
     .notNull(), // Update timestamp
 });
 
+export type IUserActivity = InferSelectModel<typeof userActivitySchema>;
 export const userActivitySchema = pgTable('user_activity', {
   id: serial('id').primaryKey(), // Auto-incrementing ID
   user_id: integer('user_id').notNull(), // ID of the user
-  cuisine_id: varchar('cuisine_id', { length: 100 }).notNull(), // Cuisine type
-  // activity_type: varchar('activity_type', { length: 50 }).notNull(), // Type of activity (e.g., view, like)
+  menu_id: varchar('menu_id', { length: 100 }).notNull(), // Cuisine type
   meal_time: varchar('meal_time', { length: 50 }).notNull(), // Timestamp of the activity
+  is_skipped: boolean('is_skipped').default(false), // Indicates if the item was skipped
+  is_cooked: boolean('is_cooked').default(false), // Indicates if the item was cooked
   created_at: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(), // Creation timestamp
+
 });

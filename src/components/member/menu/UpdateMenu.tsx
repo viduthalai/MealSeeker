@@ -26,7 +26,7 @@ export const UpdateMenu = ({
   const [updated, setUpdated] = React.useState(false);
   const router = useRouter();
   const defaultMenuList = userDetails?.menu_ids || '';
-  console.log('🚀 ~ defaultMenuList:', menuList, defaultMenuList);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

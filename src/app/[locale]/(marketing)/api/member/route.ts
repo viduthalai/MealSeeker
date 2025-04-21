@@ -21,15 +21,19 @@ export const PUT = async (request: Request) => {
   }
 
   const user_id = json?.user_id ?? 0;
-  const cuisine_id = json?.cuisine_id ?? '';
+  const menu_id = json?.menu_id ?? '';
   const meal_time = json?.meal_time ?? '';
+  const is_skipped = json?.is_skipped ?? false;
+  const is_cooked = json?.is_cooked ?? false;
 
   const count = await db
     .insert(userActivitySchema)
     .values({
       user_id,
-      cuisine_id: cuisine_id.toString(),
+      menu_id: menu_id.toString(),
       meal_time: meal_time.toString(),
+      is_cooked,
+      is_skipped,
     })
     // .onConflictDoUpdate({
     //   target: userActivitySchema.id,
