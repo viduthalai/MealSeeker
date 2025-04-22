@@ -9,7 +9,6 @@ import { getCuisineDetails, getMealTime } from './utils';
 export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId: string }): React.ReactElement {
   // const [shownItems, setShownItems] = useState<number[]>([]); // Track shown item IDs
   const [currentItem] = useState(item); // Initialize with a random item
-  console.log('🚀 ~ GenerateMenu ~ currentItem:', currentItem);
   const [submitted, setSubmitted] = useState('false');
   const [cooked, setCooked] = useState('false');
   // const [skipped, setSkipped] = useState('false');
@@ -22,7 +21,6 @@ export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId:
     try {
       // Mark the current item as skipped
       await handleCook('skipped');
-      console.log('Item skipped successfully.');
 
       // Navigate to the member page and refresh the router
       router.refresh();
@@ -35,11 +33,10 @@ export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId:
   // Handle "Let's Cook it" button click
   async function handleCook(method: 'cooked' | 'skipped' = 'cooked') {
     // Implement your cooking logic here
-    console.log('Cooking:', currentItem);
     if (submitted !== 'false') {
       return;
     }
-    setSubmitted('true');
+    setSubmitted(method);
 
     const data = {
       user_id: memberId,
@@ -57,18 +54,12 @@ export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId:
       body: JSON.stringify(data),
     });
     const res = await result.json();
-    console.log('🚀 ~ handleCook ~ res:', res);
     if (res?.user_id) {
       if (method === 'cooked') {
         setCooked('true');
-        console.log('Item cooked successfully.');
       }
       setSubmitted('done');
     }
-    // const nextItem = getRandomMenuItem(shownItems);
-
-    // router.refresh();
-    // For example, you can show an alert or navigate to a cooking page
   }
 
   if (!currentItem) {
@@ -104,7 +95,7 @@ export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId:
         )
       }
       {
-        submitted !== 'done'
+        submitted !== 'done' && submitted !== 'skipped'
         && (
           <Button
             onClick={() => handleCook('cooked')}
@@ -125,14 +116,31 @@ export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId:
           </div>
         )
       }
-      <Button
-        onClick={handleSkip}
-        variant="outline"
-        className="mt-4  rounded hover:bg-blue-600"
-      >
-        Skip
-      </Button>
 
+      {' '}
+      {/* Show "Skip" button only if not submitted */}
+      {
+        cooked !== 'true' && (
+          <Button
+            onClick={handleSkip}
+            variant="outline"
+            className="mt-4  rounded hover:bg-blue-600"
+          >
+            Skip
+          </Button>
+        )
+      }
+      {
+        cooked === 'true' && (
+          <Button
+            onClick={handleSkip}
+
+            className="mt-4  rounded hover:bg-blue-600"
+          >
+            Try Again !!!
+          </Button>
+        )
+      }
     </div>
   );
 }

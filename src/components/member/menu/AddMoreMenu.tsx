@@ -175,7 +175,7 @@ export function AddMoreDialog({ userDetails }: { userDetails: any }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" size="sm" className="bg-[#70B9BE] hover:bg-[#5da8ae] text-sm ">
+        <Button variant="default" size="sm" className="text-sm ">
           Add Menu
         </Button>
       </DialogTrigger>

@@ -15,6 +15,13 @@
       "when": 1745282408610,
       "tag": "0001_wise_gressill",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745361748664,
+      "tag": "0002_known_beyonder",
+      "breakpoints": true
     }
   ]
 }

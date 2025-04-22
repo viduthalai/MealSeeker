@@ -25,14 +25,16 @@ export default async function Index(props: IIndexProps) {
 
   return (
     <div className="flex flex-col min-h-screen home-bg">
-      <div className="flex-grow">
-        <div className="flex justify-center mt-15">
-          <h2 className="text-5xl text-gray-600 font-bold">Meal Seeker</h2>
-        </div>
-        <div className="text-center font-bold text-gray-600">Get Cooking, Faster</div>
+      {/* Main content */}
+      <div className="flex-grow flex flex-col items-center justify-center">
+        <h2 className="text-5xl text-gray-600 font-bold">Meal Seeker</h2>
+        <div className="text-center font-bold text-gray-600 mt-4">Get Cooking, Faster</div>
       </div>
-      <LoginForm />
 
+      {/* LoginForm at the bottom */}
+      <div className="flex justify-center px-4 pb-10">
+        <LoginForm />
+      </div>
     </div>
   );
 };

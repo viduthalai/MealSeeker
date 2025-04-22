@@ -19,17 +19,17 @@ export const PUT = async (request: Request) => {
 
   const name = json?.name || 'naem';
   const email = json?.email || 'ema';
-  const password = json?.password || 'ema';
-  const menu_ids = json?.menu_ids || '0,1';
+  // const password = json?.password || 'ema';
+  // const menu_ids = json?.menu_ids || '0,1';
 
   try {
     const user = await db
       .insert(userListSchema)
       .values({
         name,
-        password,
+        //  password,
         email,
-        menu_ids,
+        // menu_ids,
       })
       .returning();
     logger.info('User registered successfully');
@@ -57,7 +57,7 @@ export const POST = async (request: Request) => {
   // const headersNext = await headers();
 
   const email = json?.email || 'ema';
-  const password = json?.password || 'ema';
+  // const password = json?.password || 'ema';
 
   try {
     const user = await db
@@ -67,12 +67,11 @@ export const POST = async (request: Request) => {
       .where(
         and(
           eq(userListSchema.email, email),
-          eq(userListSchema.password, password),
+        //  eq(userListSchema.password, password),
         ),
       )
       .limit(1);
     logger.info('User login successfully');
-    console.log('🚀 ~ POST ~ user:', user);
     if (user.length === 0) {
       return NextResponse.json({ status: 'error', message: 'User not found' });
     }

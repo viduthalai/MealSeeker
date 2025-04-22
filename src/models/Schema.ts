@@ -68,7 +68,7 @@ export const userListSchema = pgTable('user_list', {
   user_id: varchar('user_id', { length: 100 }).unique(), // Unique identifier for the user
   name: varchar('name', { length: 100 }).notNull(), // User's name
   email: varchar('email', { length: 100 }).notNull(), // User's email
-  password: varchar('password', { length: 255 }).notNull(), // User's password
+  // password: varchar('password', { length: 255 }), // User's password
   menu_ids: varchar('menu_ids', { length: 255 }), // User's Menu IDs
   is_active: boolean('is_active').default(true), // Indicates if the user is active
   created_at: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(), // Creation timestamp

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -31,12 +30,10 @@ const formSchema = z.object({
 
 export const Register = () => {
   const [step, setStep] = useState<FormStep>('dietary');
-  console.log('🚀 ~ Register ~ step:', step);
 
   const router = useRouter();
 
   const navigate = (a = '/') => {
-    console.log('Navigate to home page', a);
     router.push(a);
     router.refresh();
   };
@@ -50,7 +47,6 @@ export const Register = () => {
   });
 
   const nextStep = () => {
-    console.log('🚀 ~ nextStep ~ step:', step);
     if (step === 'dietary') {
       setStep('menuList');
     }
@@ -63,14 +59,12 @@ export const Register = () => {
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('🚀 ~ onSubmit ~ values:', values);
     if (step !== 'menuList') {
       nextStep();
       return;
     }
 
     // In a real app, this is where you would submit to your backend
-    console.log('Form submitted with values:', values);
     // Mock storage for demonstration
 
     const data = {

@@ -58,7 +58,7 @@ export const LoginForm = () => {
   // };
 
   return (
-    <div className="flex justify-center text-3xl text-gray-900 text-center font-bold  px-10  mb-15">
+    <>
       <Button className="get-started-btn w-full" onClick={() => router.push('/sign-in')}>
         Get Started
       </Button>
@@ -110,6 +110,6 @@ export const LoginForm = () => {
             </Link>
           </form>
         </Form> */}
-    </div>
+    </>
   );
 };

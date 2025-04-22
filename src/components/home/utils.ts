@@ -98,3 +98,14 @@ export function getMenuItem(menuItems: MenuListItem[] = MenuList, userActivity: 
   // // Throw an error if no valid menu item can be returned
   // throw new Error('Menu list is empty. Unable to return a valid menu item.');
 }
+
+export const getHeaderText = (path: string): string => {
+  const page = path.split('/').pop(); // Remove query parameters if any
+  switch (page) {
+    case 'menu':
+      return 'Update Menu';
+
+    default:
+      return 'My Home';
+  }
+};

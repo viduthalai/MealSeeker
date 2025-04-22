@@ -4,7 +4,6 @@ import { menuListSchema, userListSchema } from '@/models/Schema';
 import { eq } from 'drizzle-orm';
 // Import the `eq` function
 
-import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export const PUT = async (request: Request) => {
@@ -17,10 +16,10 @@ export const PUT = async (request: Request) => {
   // }
 
   // The default value is 0 when there is no `x-e2e-random-id` header
-  const headersNext = await headers();
-  for (const [key, value] of headersNext.entries()) {
-    console.log(`${key}: ${value}`);
-  }
+  // const headersNext = await headers();
+  // for (const [key, value] of headersNext.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
 
   // const data = {
   //   menuName: values.menuName,

@@ -58,8 +58,7 @@ export const UpdateMenu = ({
       },
       body: JSON.stringify(data),
     });
-    const res = await result.json();
-    console.log('🚀 ~ onSubmit ~ res:', res);
+    await result.json();
 
     setUpdated(true);
     router.push(`/member/menu`);
@@ -143,7 +142,7 @@ export const UpdateMenu = ({
                 <Button
                   size="sm"
                   type="submit"
-                  className=" bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition-colors"
+                  className=" bg-green-500 text-white w-full font-bold py-2 px-4 rounded hover:bg-blue-600 transition-colors"
                   disabled={form.formState.isSubmitting}
                 >
                   Update

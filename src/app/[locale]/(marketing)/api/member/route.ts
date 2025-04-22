@@ -2,7 +2,6 @@ import { db } from '@/libs/DB';
 import { logger } from '@/libs/Logger';
 import { userActivitySchema } from '@/models/Schema';
 
-import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 
 export const PUT = async (request: Request) => {
@@ -15,10 +14,10 @@ export const PUT = async (request: Request) => {
   // }
 
   // The default value is 0 when there is no `x-e2e-random-id` header
-  const headersNext = await headers();
-  for (const [key, value] of headersNext.entries()) {
-    console.log(`${key}: ${value}`);
-  }
+  // const headersNext = await headers();
+  // for (const [key, value] of headersNext.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
 
   const user_id = json?.user_id ?? 0;
   const menu_id = json?.menu_id ?? '';
