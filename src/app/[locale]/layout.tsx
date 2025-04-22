@@ -3,8 +3,10 @@ import { Footer } from '@/components/Footer';
 import arcjet, { detectBot, request } from '@/libs/Arcjet';
 import { Env } from '@/libs/Env';
 import { routing } from '@/libs/i18nNavigation';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+
 import '@/styles/global.css';
 
 export const metadata: Metadata = {
@@ -94,6 +96,7 @@ export default async function RootLayout(props: {
         {props.children}
 
         <Footer />
+        <SpeedInsights />
       </body>
     </html>
   );
