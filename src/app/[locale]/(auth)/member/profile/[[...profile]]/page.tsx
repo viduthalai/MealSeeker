@@ -1,4 +1,3 @@
-import { getI18nPath } from '@/utils/Helpers';
 import { UserProfile } from '@clerk/nextjs';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
@@ -25,7 +24,8 @@ export default async function UserProfilePage(props: IUserProfilePageProps) {
   return (
     <div className="my-6 -ml-16">
       <UserProfile
-        path={getI18nPath('/dashboard/user-profile', locale)}
+        path="/member/profile"
+
       />
     </div>
   );

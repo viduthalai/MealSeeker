@@ -1,6 +1,6 @@
 {
-  "id": "bf0f4663-e847-4efb-90a6-90c01d8afeca",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "329924d8-6b2f-4e13-932a-9f5f39b45805",
+  "prevId": "bf0f4663-e847-4efb-90a6-90c01d8afeca",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -241,7 +241,7 @@
           "name": "menu_ids",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "is_active": {
           "name": "is_active",

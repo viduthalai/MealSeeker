@@ -29,23 +29,23 @@ export type MenuListItem = {
   dinner: boolean;
   cuisine_id: string;
   is_global?: boolean | null;
-  user_id?: number | null;
+  user_id?: string | null;
   created_at?: Date;
   updated_at?: Date;
 };
 
 export const MenuList: MenuListItem[] = [
-  { id: 0, item: 'Tomato rice', item_type: 'Main Course', breakfast: false, lunch: true, dinner: false, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 1, item: 'Idly', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 2, item: 'Sambhar', item_type: 'Curry', breakfast: true, lunch: true, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 3, item: 'Mint Chutney', item_type: 'Curry', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 4, item: 'Dosa', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 5, item: 'Peanut chutney', item_type: 'Curry', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 6, item: 'Coconut chutney', item_type: 'Curry', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 7, item: 'Pongal', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 8, item: 'Upma', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 9, item: 'Kichadi', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
-  { id: 10, item: 'Veg kurma', item_type: 'Curry', breakfast: false, lunch: true, dinner: true, cuisine_id: '1', is_global: true, user_id: 0, created_at: new Date(), updated_at: new Date() },
+  { id: 0, item: 'Tomato rice', item_type: 'Main Course', breakfast: false, lunch: true, dinner: false, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 1, item: 'Idly', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 2, item: 'Sambhar', item_type: 'Curry', breakfast: true, lunch: true, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 3, item: 'Mint Chutney', item_type: 'Curry', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 4, item: 'Dosa', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 5, item: 'Peanut chutney', item_type: 'Curry', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 6, item: 'Coconut chutney', item_type: 'Curry', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 7, item: 'Pongal', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 8, item: 'Upma', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 9, item: 'Kichadi', item_type: 'Main Course', breakfast: true, lunch: false, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
+  { id: 10, item: 'Veg kurma', item_type: 'Curry', breakfast: false, lunch: true, dinner: true, cuisine_id: '1', is_global: true, user_id: '0', created_at: new Date(), updated_at: new Date() },
   { id: 11, item: 'Ragi', item_type: 'Main Course', breakfast: true, lunch: false, dinner: false, cuisine_id: '1' },
   { id: 12, item: 'Bread omelette', item_type: 'Main Course', breakfast: true, lunch: false, dinner: false, cuisine_id: '1' },
   { id: 13, item: 'Mint pulao', item_type: 'Main Course', breakfast: false, lunch: true, dinner: false, cuisine_id: '1' },

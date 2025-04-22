@@ -1,12 +1,8 @@
 import { UpdateMenu } from '@/components/member/menu/UpdateMenu';
 import { db } from '@/libs/DB';
 import { menuListSchema, userListSchema } from '@/models/Schema';
+import { currentUser } from '@clerk/nextjs/server';
 import { eq, or } from 'drizzle-orm';
-
-type IAboutProps = {
-  params: Promise<{ slug: string; locale: string }>;
-  searchParams: Promise<Record<string, string>>;
-};
 
 export async function generateMetadata() {
   return {
@@ -15,12 +11,11 @@ export async function generateMetadata() {
   };
 }
 
-export default async function MenuPage(props: IAboutProps) {
-  const params = await props.searchParams;
-  const memberId = Number(params?.id) || 0;
-
+export default async function MenuPage() {
+  const user = await currentUser();
+  const memberId: string = user?.id || '';
   const result = await db.query.userListSchema.findFirst({
-    where: eq(userListSchema.id, memberId),
+    where: eq(userListSchema.user_id, memberId.toString()),
   });
 
   if (!result) {
@@ -29,7 +24,7 @@ export default async function MenuPage(props: IAboutProps) {
 
   const menuListData = await db.query.menuListSchema.findMany({
     where: or(
-      eq(menuListSchema.user_id, memberId),
+      eq(menuListSchema.user_id, memberId.toString()),
       eq(menuListSchema.is_global, true), // Use `true` (lowercase) for boolean values in JavaScript
     ),
   });

@@ -1,11 +1,12 @@
 'use client';
 
+import type { IUserList } from '@/models/Schema';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 
 import { Form, FormField, FormItem } from '@/components/ui/form';
-
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -25,7 +26,7 @@ const formSchema = z.object({
 export const AddMoreMenu = ({
   userDetails,
 }: {
-  userDetails: any;
+  userDetails: IUserList;
 
 }) => {
   const router = useRouter();
@@ -46,7 +47,7 @@ export const AddMoreMenu = ({
       isLunch: values.isLunch,
       isDinner: values.isDinner,
       cuisine_id: values.cuisine_id,
-      user_id: userDetails?.id || 0,
+      user_id: userDetails?.user_id,
       item_type: 'Curry', // Assuming a default type for custom items
       menu_ids: userDetails?.menu_ids || '',
     };
@@ -59,7 +60,7 @@ export const AddMoreMenu = ({
       body: JSON.stringify(data),
     });
     const res = await result.json();
-    router.push(`/member/menu?id=${userDetails?.id}`);
+    router.push(`/member/menu`);
     router.refresh();
     form.reset();
     console.log('🚀 ~ onSubmit ~ res:', res);

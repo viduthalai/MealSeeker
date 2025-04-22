@@ -12,10 +12,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { cuisineTypes, dietaryRestrictions, MenuList as menuItemsList } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -23,19 +21,17 @@ import * as z from 'zod';
 // import { useNavigate } from "react-router-dom";
 // import { StatusBar } from "@/components/home/StatusBar";
 
-type FormStep = 'personal' | 'dietary' | 'menuList';
+type FormStep = 'dietary' | 'menuList';
 
 const formSchema = z.object({
-  name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
   dietaryRestrictions: z.array(z.string()).optional(),
   cuisineList: z.array(z.string()).optional(),
   menuList: z.array(z.string()).optional(),
 });
 
 export const Register = () => {
-  const [step, setStep] = useState<FormStep>('personal');
+  const [step, setStep] = useState<FormStep>('dietary');
+  console.log('🚀 ~ Register ~ step:', step);
 
   const router = useRouter();
 
@@ -48,34 +44,22 @@ export const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
       dietaryRestrictions: [],
       menuList: menuItemsList.map(item => item.id.toString()),
     },
   });
 
   const nextStep = () => {
-    if (step === 'personal') {
-      setStep('dietary');
-    } else if (step === 'dietary') {
+    console.log('🚀 ~ nextStep ~ step:', step);
+    if (step === 'dietary') {
       setStep('menuList');
     }
-    //  else if (step === 'menuList') {
-    //     setStep('confirmation');
-    // }
   };
 
   const prevStep = () => {
-    if (step === 'dietary') {
-      setStep('personal');
-    } else if (step === 'menuList') {
+    if (step === 'menuList') {
       setStep('dietary');
     }
-    // else if (step === 'confirmation') {
-    //     setStep('menuList');
-    // }
   };
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -89,30 +73,27 @@ export const Register = () => {
     console.log('Form submitted with values:', values);
     // Mock storage for demonstration
 
-    // const data = {
-    //   name: values.name,
-    //   email: values.email,
-    //   password: values.password,
-    //   menu_ids: values.menuList?.join(','),
-    // };
+    const data = {
+      menu_ids: values.menuList?.join(','),
+    };
 
-    // const result = await fetch(`/api/visitor`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // });
-    // const res = await result.json();
-    // // Navigate to home page
-    // if (res?.status === 'success') {
-    //   localStorage.setItem('mealSeekerUser', JSON.stringify({
-    //     userId: res?.user_id,
-    //     name: res?.name,
-    //   }));
+    const result = await fetch(`/api/visitor`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    const res = await result.json();
+    // Navigate to home page
+    if (res?.status === 'success') {
+      localStorage.setItem('mealSeekerUser', JSON.stringify({
+        userId: res?.user_id,
+        name: res?.name,
+      }));
 
-    //   navigate('/member');
-    // }
+      navigate('/member');
+    }
   };
 
   return (
@@ -121,17 +102,14 @@ export const Register = () => {
         {/* <StatusBar /> */}
         <main className="mt-3">
           <div className="mb-8">
-            <button type="button" onClick={() => navigate('/')} className="text-[#70B9BE] text-md font-bold">
-              &larr; Back
-            </button>
             <h1 className="text-2xl font-bold mt-4 text-[#0A2533]">
-              {step === 'personal' && 'Create Account'}
+              {/* {step === 'personal' && 'Create Account'} */}
               {step === 'dietary' && 'Preferences'}
               {step === 'menuList' && 'Favorite Menu'}
               {/* {step === 'confirmation' && 'Confirm Your Choices'} */}
             </h1>
             <div className="text-[#97A2B0]  text-sm">
-              {step === 'personal' && 'Fill in your details to get started'}
+              {/* {step === 'personal' && 'Fill in your details to get started'} */}
               {step === 'dietary' && 'Select your meal preferences'}
               {step === 'menuList' && 'Select your favorite Menulist'}
               {/* {step === 'confirmation' && 'Review your preferences before finishing'} */}
@@ -140,49 +118,6 @@ export const Register = () => {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {step === 'personal' && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Your full name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="your.email@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input type="password" placeholder="******" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
 
               {step === 'dietary' && (
                 <FormField
@@ -345,7 +280,7 @@ export const Register = () => {
 
               <div className="flex justify-between pt-4">
 
-                {step !== 'personal' && (
+                {step === 'menuList' && (
                   <Button
                     type="button"
                     variant="outline"
@@ -354,14 +289,7 @@ export const Register = () => {
                     Back
                   </Button>
                 )}
-                {step === 'personal' && (
-                  <Button
-                    className="ml-auto bg-[#70B9BE] hover:bg-[#5da8ae]"
-                    type="submit"
-                  >
-                    Next
-                  </Button>
-                )}
+
                 {step === 'dietary' && (
                   <Button
                     className="bg-[#70B9BE] hover:bg-[#5da8ae]"
@@ -375,14 +303,8 @@ export const Register = () => {
                     className="bg-[#70B9BE] hover:bg-[#5da8ae]"
                     variant="destructive"
                     type="submit"
-                    disabled={form.formState.isSubmitted}
                   >
-
                     Complete Registration
-
-                    {
-                      form.formState.isSubmitted && <Loader2 className="animate-spin" />
-                    }
                   </Button>
                 )}
 

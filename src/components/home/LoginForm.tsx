@@ -1,31 +1,18 @@
 'use client';
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 
-const formSchema = z.object({
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
-});
+// const formSchema = z.object({
+//   email: z.string().email({ message: 'Please enter a valid email address.' }),
+//   password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
+// });
 
 export const LoginForm = () => {
-  const [error, setError] = React.useState('false');
-  const [submitted, setSubmitted] = React.useState('false');
+  // const [error, setError] = React.useState('false');
+  // const [submitted, setSubmitted] = React.useState('false');
   const router = useRouter();
 
   const navigate = (a = '/') => {
@@ -33,48 +20,55 @@ export const LoginForm = () => {
     router.push(a);
     router.refresh();
   };
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: 'john.doe@example.com',
-      password: '123456',
-    },
-  });
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (submitted === 'true') {
-      return;
-    }
-    setSubmitted('true');
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     email: 'john.doe@example.com',
+  //     password: '123456',
+  //   },
+  // });
+  // const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  //   if (submitted === 'true') {
+  //     return;
+  //   }
+  //   setSubmitted('true');
 
-    const data = {
-      email: values.email,
-      password: values.password,
-    };
+  //   const data = {
+  //     email: values.email,
+  //     password: values.password,
+  //   };
 
-    const result = await fetch(`/api/visitor`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    const res = await result.json();
-    if (res?.status === 'error') {
-      setError('true');
-      setSubmitted('false');
-      return;
-    }
-    // Navigate to home page
-    if (res?.status === 'success') {
-      localStorage.setItem('MealUserId', res?.user_id);
-      navigate(`/member/${res?.user_id}`);
-    }
-  };
+  //   const result = await fetch(`/api/visitor`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  //   const res = await result.json();
+  //   if (res?.status === 'error') {
+  //     setError('true');
+  //     setSubmitted('false');
+  //     return;
+  //   }
+  //   // Navigate to home page
+  //   if (res?.status === 'success') {
+  //     localStorage.setItem('MealUserId', res?.user_id);
+  //     navigate(`/member/${res?.user_id}`);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col px-6 py-[7px]">
       <main className="mt-3">
-        <Form {...form}>
+        <Button variant="default" className="w-full mx-4" onClick={() => navigate(`/sign-in`)}>
+          Sign In
+        </Button>
+        <Link className="w-full mx-4 text-sm text-white" href="/sign-up">
+          Create new account
+        </Link>
+
+        {/* <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
             <FormField
@@ -120,7 +114,7 @@ export const LoginForm = () => {
               Create new account
             </Link>
           </form>
-        </Form>
+        </Form> */}
       </main>
     </div>
   );

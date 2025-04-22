@@ -36,11 +36,9 @@ export default async function Index(props: IIndexProps) {
       </div>
       <div className="text-center font-bold text-gray-600">Get Cooking, Faster</div>
 
-      <div className="pl-6 pr-6 text-center">
+      <div className="flex justify-between text-3xl text-gray-900 text-center font-bold mt-50">
         <LoginForm />
-      </div>
-      <div className="flex justify-between text-3xl text-gray-900 text-center font-bold mt-10">
-        Help your path to health goals with happiness
+
       </div>
     </div>
   );

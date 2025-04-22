@@ -1,0 +1,1 @@
+ALTER TABLE "user_list" ALTER COLUMN "menu_ids" DROP NOT NULL;

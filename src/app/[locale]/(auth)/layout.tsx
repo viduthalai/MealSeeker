@@ -12,7 +12,7 @@ export default async function AuthLayout(props: {
   let clerkLocale = enUS;
   let signInUrl = '/sign-in';
   let signUpUrl = '/sign-up';
-  let dashboardUrl = '/dashboard';
+  let dashboardUrl = '/member';
   let afterSignOutUrl = '/';
 
   if (locale === 'fr') {

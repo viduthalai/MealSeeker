@@ -12,21 +12,11 @@ import { MenuList } from '@/lib/constants';
 // The migration is automatically applied during the next database interaction,
 // so there's no need to run it manually or restart the Next.js server.
 
-import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 // Infer the type of the `userListSchema`
 export type IUserList = InferSelectModel<typeof userListSchema>;
 export type IMenuList = InferSelectModel<typeof menuListSchema>;
-
-export const counterSchema = pgTable('counter', {
-  id: serial('id').primaryKey(),
-  count: integer('count').default(0),
-  updatedAt: timestamp('updated_at', { mode: 'date' })
-    .defaultNow()
-    .$onUpdate(() => new Date())
-    .notNull(),
-  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-});
 
 export const menuListSchema = pgTable('menu_list', {
   id: serial('id').primaryKey(), // Auto-incrementing ID
@@ -37,7 +27,7 @@ export const menuListSchema = pgTable('menu_list', {
   dinner: boolean('dinner').notNull(), // Available for dinner
   cuisine_id: varchar('cuisine_id', { length: 100 }).notNull(), // Cuisine type
   is_global: boolean('is_global').default(false), // Indicates if the item is global
-  user_id: integer('user_id').default(0), // ID of the user who created the item
+  user_id: varchar('user_id', { length: 100 }), // ID of the user who created the item
   is_active: boolean('is_active').default(true), // Indicates if the item is active
   created_at: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(), // Creation timestamp
   updated_at: timestamp('updated_at', { mode: 'date' })
@@ -75,10 +65,11 @@ export const cuisineListSchema = pgTable('cuisine_list', {
 
 export const userListSchema = pgTable('user_list', {
   id: serial('id').primaryKey(), // Auto-incrementing ID
+  user_id: varchar('user_id', { length: 100 }).unique(), // Unique identifier for the user
   name: varchar('name', { length: 100 }).notNull(), // User's name
   email: varchar('email', { length: 100 }).notNull(), // User's email
   password: varchar('password', { length: 255 }).notNull(), // User's password
-  menu_ids: varchar('menu_ids', { length: 255 }).notNull(), // User's Menu IDs
+  menu_ids: varchar('menu_ids', { length: 255 }), // User's Menu IDs
   is_active: boolean('is_active').default(true), // Indicates if the user is active
   created_at: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(), // Creation timestamp
   updated_at: timestamp('updated_at', { mode: 'date' })
@@ -90,11 +81,10 @@ export const userListSchema = pgTable('user_list', {
 export type IUserActivity = InferSelectModel<typeof userActivitySchema>;
 export const userActivitySchema = pgTable('user_activity', {
   id: serial('id').primaryKey(), // Auto-incrementing ID
-  user_id: integer('user_id').notNull(), // ID of the user
+  user_id: varchar('user_id').notNull(), // ID of the user
   menu_id: varchar('menu_id', { length: 100 }).notNull(), // Cuisine type
   meal_time: varchar('meal_time', { length: 50 }).notNull(), // Timestamp of the activity
   is_skipped: boolean('is_skipped').default(false), // Indicates if the item was skipped
   is_cooked: boolean('is_cooked').default(false), // Indicates if the item was cooked
   created_at: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(), // Creation timestamp
-
 });

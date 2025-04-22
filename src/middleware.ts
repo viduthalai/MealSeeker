@@ -7,8 +7,9 @@ import { routing } from './libs/i18nNavigation';
 const intlMiddleware = createMiddleware(routing);
 
 const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  '/:locale/dashboard(.*)',
+  '/member(.*)',
+  '/member/profile(.*)',
+  '/menu(.*)',
 ]);
 
 const isAuthPage = createRouteMatcher([
@@ -29,7 +30,7 @@ export default function middleware(
     return clerkMiddleware(async (auth, req) => {
       if (isProtectedRoute(req)) {
         const locale
-          = req.nextUrl.pathname.match(/(\/.*)\/dashboard/)?.at(1) ?? '';
+          = req.nextUrl.pathname.match(/(\/.*)\/member/)?.at(1) ?? '';
 
         const signInUrl = new URL(`${locale}/sign-in`, req.url);
 

@@ -3,11 +3,14 @@ import { getGreeting, getMenuItem } from '@/components/home/utils';
 import { SunSVG } from '@/components/icons/sun';
 import { db } from '@/libs/DB';
 import { menuListSchema, userActivitySchema, userListSchema } from '@/models/Schema';
+import { SignOutButton } from '@clerk/nextjs';
+import { currentUser } from '@clerk/nextjs/server';
 import { desc, eq, inArray } from 'drizzle-orm';
+import Link from 'next/link';
 
-type IAboutProps = {
-  params: Promise<{ slug: string; locale: string }>;
-};
+// type IAboutProps = {
+//   params: Promise<{ locale: string }>;
+// };
 
 export async function generateMetadata() {
   return {
@@ -16,19 +19,39 @@ export async function generateMetadata() {
   };
 }
 
-export default async function MemberHome(props: IAboutProps) {
-  const { slug = [] } = await props.params;
-  // const mealTime = getMealTime();
-  const memberId = Number(slug[0]) || 0;
+export default async function MemberHome() {
+  const user = await currentUser();
+  const memberId = user?.id || '';
+
   const result = await db.query.userListSchema.findFirst({
-    where: eq(userListSchema.id, memberId),
+    where: eq(userListSchema.user_id, memberId.toString()),
   });
 
   if (!result) {
     return null;
   }
-  const { name = 'User', menu_ids = '' } = result || {};
-  const idsArray = menu_ids.split(',').map(id => Number.parseInt(id.trim(), 10)); // Convert to array of numbers
+  const { menu_ids = '' } = result || {};
+
+  if (!menu_ids) {
+    return (
+      <div className="p-4">
+        <div className="text-left text-sm">
+          <SunSVG />
+          {getGreeting()}
+        </div>
+        <div className="mt-1 text-left font-bold text-md">
+          {`${user?.firstName}, ${user?.lastName}`}
+        </div>
+        <div className="mt-4">
+          <p className="text-red-500"> Please add some items to your menu.</p>
+        </div>
+        <div className="mt-4">
+          <Link type="button" href="/member/menu" className="text-blue-500 hover:underline">Add Menu Items</Link>
+        </div>
+      </div>
+    );
+  }
+  const idsArray = menu_ids?.split(',').map(id => Number.parseInt(id.trim(), 10)) || []; // Convert to array of numbers
 
   const menuListData = await db.query.menuListSchema.findMany({
     where: inArray(menuListSchema.id, idsArray),
@@ -37,14 +60,12 @@ export default async function MemberHome(props: IAboutProps) {
   const activityLimit = menuListData.length >= 10 ? 15 : menuListData.length; // Default to 15 if no menu items are found
 
   const userActivity = await db.query.userActivitySchema.findMany({
-    where: eq(userActivitySchema.user_id, memberId),
+    where: eq(userActivitySchema.user_id, memberId.toString()),
     orderBy: [desc(userActivitySchema.created_at)], // Sort by `created_at` in descending order
     limit: activityLimit, // Limit to the last 10 activities
   });
 
   const item = getMenuItem(menuListData, userActivity) || {};
-
-  console.log('🚀 ~ MemberHome ~ item:', item);
 
   return (
     <>
@@ -55,12 +76,17 @@ export default async function MemberHome(props: IAboutProps) {
             {getGreeting()}
           </div>
           <div className="mt-1 text-left font-bold text-md">
-            {name}
+            {`${user?.firstName}, ${user?.lastName}`}
           </div>
 
         </div>
         <div>
-          <GenerateMenu item={item} />
+          <GenerateMenu memberId={memberId} item={item} />
+        </div>
+        <div className="mt-4">
+          <SignOutButton>
+            Sign Out
+          </SignOutButton>
         </div>
       </div>
     </>

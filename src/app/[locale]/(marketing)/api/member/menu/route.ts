@@ -68,7 +68,7 @@ export const PUT = async (request: Request) => {
       .set({
         menu_ids: menu_ids.toString(),
       })
-      .where(eq(userListSchema.id, user_id)) // Use `eq` for the condition
+      .where(eq(userListSchema.user_id, user_id)) // Use `eq` for the condition
       .returning();
 
     return NextResponse.json({
@@ -101,7 +101,7 @@ export const POST = async (request: Request) => {
     .set({
       menu_ids: menu_ids.toString(),
     })
-    .where(eq(userListSchema.id, user_id)) // Use `eq` for the condition
+    .where(eq(userListSchema.user_id, user_id)) // Use `eq` for the condition
     .returning();
 
   logger.info('User menu has been updated');

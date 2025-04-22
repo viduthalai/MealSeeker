@@ -40,7 +40,7 @@ export const UpdateMenu = ({
     console.log('🚀 ~ onSubmit ~ values:', values);
 
     const data = {
-      user_id: userDetails?.id || 0,
+      user_id: userDetails?.user_id,
       menu_ids: values?.menuList || '',
     };
 

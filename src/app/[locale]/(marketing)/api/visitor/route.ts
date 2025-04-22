@@ -35,7 +35,7 @@ export const PUT = async (request: Request) => {
     logger.info('User registered successfully');
     return NextResponse.json({
       status: 'success',
-      user_id: user[0]?.id,
+      user_id: user[0]?.user_id,
     });
   } catch (error) {
     logger.info('Login faile error:', error);

@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { getCuisineDetails, getMealTime } from './utils';
 
-export function GenerateMenu({ item }: { item: MenuListItem }): React.ReactElement {
+export function GenerateMenu({ item, memberId }: { item: MenuListItem; memberId: string }): React.ReactElement {
   // const [shownItems, setShownItems] = useState<number[]>([]); // Track shown item IDs
   const [currentItem] = useState(item); // Initialize with a random item
   console.log('🚀 ~ GenerateMenu ~ currentItem:', currentItem);
@@ -42,7 +42,7 @@ export function GenerateMenu({ item }: { item: MenuListItem }): React.ReactEleme
     setSubmitted('true');
 
     const data = {
-      user_id: 1,
+      user_id: memberId,
       menu_id: currentItem.id,
       meal_time: mealTime,
       is_skipped: method === 'skipped',
