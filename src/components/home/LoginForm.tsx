@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Button } from '../ui/button';
@@ -15,11 +14,11 @@ export const LoginForm = () => {
   // const [submitted, setSubmitted] = React.useState('false');
   const router = useRouter();
 
-  const navigate = (a = '/') => {
-    console.log('Navigate to home page', a);
-    router.push(a);
-    router.refresh();
-  };
+  // const navigate = (a = '/') => {
+  //   console.log('Navigate to home page', a);
+  //   router.push(a);
+  //   router.refresh();
+  // };
   // const form = useForm<z.infer<typeof formSchema>>({
   //   resolver: zodResolver(formSchema),
   //   defaultValues: {
@@ -59,16 +58,12 @@ export const LoginForm = () => {
   // };
 
   return (
-    <div className="flex flex-col px-6 py-[7px]">
-      <main className="mt-3">
-        <Button variant="default" className="w-full mx-4" onClick={() => navigate(`/sign-in`)}>
-          Sign In
-        </Button>
-        <Link className="w-full mx-4 text-sm text-white" href="/sign-up">
-          Create new account
-        </Link>
+    <div className="flex justify-center text-3xl text-gray-900 text-center font-bold  px-10  mb-15">
+      <Button className="get-started-btn w-full" onClick={() => router.push('/sign-in')}>
+        Get Started
+      </Button>
 
-        {/* <Form {...form}>
+      {/* <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
             <FormField
@@ -115,7 +110,6 @@ export const LoginForm = () => {
             </Link>
           </form>
         </Form> */}
-      </main>
     </div>
   );
 };

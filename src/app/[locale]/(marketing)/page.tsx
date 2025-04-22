@@ -21,25 +21,18 @@ export async function generateMetadata(props: IIndexProps) {
 
 export default async function Index(props: IIndexProps) {
   const { locale } = await props.params;
-
   setRequestLocale(locale);
-  // const t = await getTranslations({
-  //   locale,
-  //   namespace: 'Index',
-  // });
 
   return (
-    <div className="home-bg">
-      <div className="flex justify-center mt-15">
-        {/* <img width="200px" src="/logo.png" /> */}
-        <h1 className="text-5xl text-cyan-50 font-bold">Meal Seeker</h1>
+    <div className="flex flex-col min-h-screen home-bg">
+      <div className="flex-grow">
+        <div className="flex justify-center mt-15">
+          <h2 className="text-5xl text-gray-600 font-bold">Meal Seeker</h2>
+        </div>
+        <div className="text-center font-bold text-gray-600">Get Cooking, Faster</div>
       </div>
-      <div className="text-center font-bold text-gray-600">Get Cooking, Faster</div>
+      <LoginForm />
 
-      <div className="flex justify-between text-3xl text-gray-900 text-center font-bold mt-50">
-        <LoginForm />
-
-      </div>
     </div>
   );
 };

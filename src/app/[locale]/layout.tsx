@@ -61,6 +61,7 @@ export default async function RootLayout(props: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await props.params;
+  console.log('🚀 ~ locale:', locale);
 
   if (!routing.locales.includes(locale)) {
     notFound();
