@@ -46,7 +46,7 @@ export default async function MemberHome() {
           <p className="text-red-500"> Please add some items to your menu.</p>
         </div>
         <div className="mt-4">
-          <Link type="button" href="/member/menu" className="text-blue-500 hover:underline">Add Menu Items</Link>
+          <Link type="button" href="/member/menu?firstTime=true" className="text-blue-500 hover:underline">Add Menu Items</Link>
         </div>
       </div>
     );

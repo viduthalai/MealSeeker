@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormField, FormItem } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -24,21 +24,28 @@ export const UpdateMenu = ({
   menuList: IMenuList[];
 }) => {
   const [updated, setUpdated] = React.useState(false);
+  // get url parameters
+  const params = useSearchParams();
+  const isFirstTime = params.get('firstTime') === 'true';
+  // Log the parameters and path for debugging
+
   const router = useRouter();
-  const defaultMenuList = userDetails?.menu_ids || '';
+  const defaultMenuList = isFirstTime
+    ? menuList.map(
+        item => item.id.toString(),
+      ).join(',')
+    : userDetails?.menu_ids;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      menuList: defaultMenuList.length > 0
+      menuList: defaultMenuList
         ? defaultMenuList?.split(',').map(item => item.trim())
         : [],
       // Initialize menuList with the user's existing menu IDs
     },
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('🚀 ~ onSubmit ~ values:', values);
-
     const data = {
       user_id: userDetails?.user_id,
       menu_ids: values?.menuList || '',
@@ -53,8 +60,9 @@ export const UpdateMenu = ({
     });
     const res = await result.json();
     console.log('🚀 ~ onSubmit ~ res:', res);
+
     setUpdated(true);
-    router.push(`/member/menu?id=${userDetails?.id}`);
+    router.push(`/member/menu`);
     router.refresh();
   };
 
@@ -95,7 +103,6 @@ export const UpdateMenu = ({
                                   id={item.id.toString()}
                                   checked={field.value?.includes(item.id.toString())}
                                   onCheckedChange={(checked) => {
-                                    console.log('🚀 ~ checked:', checked, field.value);
                                     return checked
                                       ? field.onChange([...field.value || [], item.id.toString()])
                                       : field.onChange(
