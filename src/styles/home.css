@@ -4,13 +4,8 @@
   background-color: #70b9be;
   background-position: center;
   background-repeat: no-repeat;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
-  height: 100vh; /* Set height to 100% of the viewport */
+  height: 100dvh; /* Use dynamic viewport height for better mobile support */
   overflow: hidden; /* Prevent scrolling issues */
 }
 
@@ -22,11 +17,25 @@
   box-shadow: 0px 10px 9px rgba(108, 197, 29, 0.25);
   border-radius: 5px;
 }
-@supports (-webkit-touch-callout: none) {
-  .home-bg {
-    height: -webkit-fill-available; /* Use this for iOS Safari */
-  }
-}
-p {
-  margin: 0;
+
+.header-title {
+  /* Categories */
+
+  font-family:
+    'Poppins',
+    ui-sans-serif,
+    system-ui,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    Segoe UI Symbol,
+    'Noto Color Emoji';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  /* identical to box height */
+  text-align: center;
+  letter-spacing: 0.03em;
+  color: #000000;
 }

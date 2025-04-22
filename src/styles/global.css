@@ -106,3 +106,14 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+header {
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0 0 0 0;
+}
+
+main {
+  padding: 20px;
+  background-color: #f4f5f9;
+}
