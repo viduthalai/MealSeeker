@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 
 export const LoginForm = () => {
   // const [error, setError] = React.useState('false');
-  // const [submitted, setSubmitted] = React.useState('false');
+  const [submitted, setSubmitted] = React.useState(false);
   const router = useRouter();
 
   // const navigate = (a = '/') => {
@@ -59,8 +59,19 @@ export const LoginForm = () => {
 
   return (
     <>
-      <Button className="get-started-btn w-full" onClick={() => router.push('/sign-in')}>
+      <Button
+        disabled={submitted === true}
+        className="get-started-btn w-full"
+        onClick={() => {
+          setSubmitted(true);
+          router.push('/sign-in');
+        }}
+      >
         Get Started
+        {' '}
+        {
+          submitted && <span className="animate-spin">...</span>
+        }
       </Button>
 
       {/* <Form {...form}>

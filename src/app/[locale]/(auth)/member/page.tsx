@@ -5,6 +5,7 @@ import { db } from '@/libs/DB';
 import { menuListSchema, userActivitySchema, userListSchema } from '@/models/Schema';
 import { currentUser } from '@clerk/nextjs/server';
 import { desc, eq, inArray } from 'drizzle-orm';
+import Image from 'next/image';
 import Link from 'next/link';
 
 // type IAboutProps = {
@@ -81,21 +82,30 @@ export default async function MemberHome() {
 
   return (
     <>
-      <div className="p-4">
-        <div>
-          <div className="mt-2 text-left text-sm flex  items-center gap-1">
-            <SunSVG />
-            {getGreeting()}
+      <div>
+        <div className="relative">
+          <Image
+            src="/assets/images/member/homeHeader1.png"
+            alt="User Avatar"
+            layout="responsive"
+            width={0}
+            height="250"
+            className="rounded-lg shadow-md w-full"
+            style={{ maxHeight: '220px', height: '250px' }}
+          />
+          <div className="greeting-container absolute left-10 bottom-5 p-4">
+            <div className="text-left text-2xl flex items-center gap-1">
+              <SunSVG />
+              {getGreeting()}
+            </div>
+            <div className="mt-1 text-left font-bold text-2xl">
+              {`${user?.firstName}, ${user?.lastName}`}
+            </div>
           </div>
-          <div className="mt-1 text-left font-bold text-md">
-            {`${user?.firstName}, ${user?.lastName}`}
-          </div>
-
         </div>
         <div>
           <GenerateMenu memberId={memberId} item={item} />
         </div>
-
       </div>
     </>
   );
