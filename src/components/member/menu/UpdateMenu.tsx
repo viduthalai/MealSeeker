@@ -1,12 +1,13 @@
 'use client';
 
-import type { IMenuList, IUserList } from '@/models/Schema';
+import type { IMenuList } from '@/models/Schema';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormField, FormItem } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { AddMoreDialog } from './AddMoreMenu';
@@ -17,37 +18,84 @@ const formSchema = z.object({
 });
 
 export const UpdateMenu = ({
-  userDetails,
-  menuList,
+  memberId,
 }: {
-  userDetails: IUserList;
-  menuList: IMenuList[];
+  memberId: string;
 }) => {
+  // userDetails: IUserList;
+  // menuList: IMenuList[];
   const [updated, setUpdated] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState<{
+    menuList: IMenuList[];
+    selectedMenuIds: string;
+  }>({
+    menuList: [],
+    selectedMenuIds: '',
+  });
   // get url parameters
   const params = useSearchParams();
-  const isFirstTime = params.get('firstTime') === 'true';
-  // Log the parameters and path for debugging
-
-  const router = useRouter();
-  const defaultMenuList = isFirstTime
-    ? menuList.map(
-        item => item.id.toString(),
-      ).join(',')
-    : userDetails?.menu_ids;
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      menuList: defaultMenuList
-        ? defaultMenuList?.split(',').map(item => item.trim())
-        : [],
-      // Initialize menuList with the user's existing menu IDs
-    },
   });
+
+  const isFirstTime = params.get('firstTime') === 'true';
+  // Log the parameters and path for debugging
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchMenuList = async () => {
+      try {
+        const response = await fetch(`/api/member/menu/list?memberId=${memberId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch menu list');
+        }
+        const data = await response.json();
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching menu list:', error);
+      }
+    };
+
+    fetchMenuList();
+  }, [memberId]);
+
+  const { menuList, selectedMenuIds } = data;
+
+  useEffect(() => {
+    if (!loading) {
+      const defaultMenuList = isFirstTime
+        ? menuList.map(item => item.id.toString()).join(',')
+        : selectedMenuIds;
+
+      form.reset({
+        menuList: defaultMenuList
+          ? defaultMenuList.split(',').map(item => item.trim())
+          : [],
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, menuList, selectedMenuIds, isFirstTime]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        Loading Menu
+        {'  '}
+        <Loader2 className="animate-spin h-6 w-6 text-gray-500 " />
+      </div>
+    );
+  }
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const data = {
-      user_id: userDetails?.user_id,
+      user_id: memberId,
       menu_ids: values?.menuList || '',
     };
 
@@ -69,7 +117,7 @@ export const UpdateMenu = ({
     <>
       <div className="flex justify-end">
         <div className="mb-5 float-right">
-          <AddMoreDialog userDetails={userDetails} />
+          <AddMoreDialog memberId={memberId} selectedMenuIds={selectedMenuIds} />
         </div>
       </div>
 

@@ -32,7 +32,7 @@ export default async function Index(props: IIndexProps) {
       </div>
 
       {/* LoginForm at the bottom */}
-      <div className="flex justify-end px-4 pb-10">
+      <div className="w-full flex justify-end px-4 pb-10">
         <LoginForm />
       </div>
     </div>

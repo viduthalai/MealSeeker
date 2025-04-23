@@ -1,6 +1,5 @@
 'use client';
 
-import type { IUserList } from '@/models/Schema';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 
@@ -11,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -20,16 +19,19 @@ const formSchema = z.object({
   isBreakfast: z.boolean().optional(),
   isLunch: z.boolean().optional(),
   isDinner: z.boolean().optional(),
+  item_type: z.enum(['Curry', 'Main Course', 'Rice', 'Bread', 'Salad', 'Dessert']).default('Main Course'),
   cuisine_id: z.string().min(1, { message: 'Cuisine is required.' }),
 });
 
 export const AddMoreMenu = ({
-  userDetails,
+  memberId,
+  selectedMenuIds,
 }: {
-  userDetails: IUserList;
+  memberId: string;
+  selectedMenuIds?: string;
 
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,6 +39,7 @@ export const AddMoreMenu = ({
       isBreakfast: false,
       isLunch: false,
       isDinner: true,
+      item_type: 'Main Course',
       cuisine_id: '1',
     },
   });
@@ -47,9 +50,9 @@ export const AddMoreMenu = ({
       isLunch: values.isLunch,
       isDinner: values.isDinner,
       cuisine_id: values.cuisine_id,
-      user_id: userDetails?.user_id,
-      item_type: 'Curry', // Assuming a default type for custom items
-      menu_ids: userDetails?.menu_ids || '',
+      user_id: memberId,
+      item_type: values.item_type, // Assuming a default type for custom items
+      menu_ids: selectedMenuIds || '',
     };
 
     const result = await fetch(`/api/member/menu`, {
@@ -60,9 +63,9 @@ export const AddMoreMenu = ({
       body: JSON.stringify(data),
     });
     const res = await result.json();
-    router.push(`/member/menu`);
-    router.refresh();
-    form.reset();
+    window.location.reload(); // Reload the page to reflect changes
+    // router.push(`/member/menu`);
+    // router.refresh();
     console.log('🚀 ~ onSubmit ~ res:', res);
   };
 
@@ -79,6 +82,8 @@ export const AddMoreMenu = ({
                 <div className="grid grid-cols-2">
                   <Input
                     placeholder="Menu Name"
+                    aria-autocomplete="none"
+                    autoComplete="off"
                     {...form.register('menuName')}
                     className="w-full"
                   />
@@ -133,6 +138,23 @@ export const AddMoreMenu = ({
             />
 
           </div>
+          <FormField
+            control={form.control}
+            name="item_type"
+            render={({ field }) => (
+              <FormItem>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select menu type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Main Course">Main Course</SelectItem>
+                    <SelectItem value="Curry">Curry</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
@@ -171,7 +193,7 @@ export const AddMoreMenu = ({
   );
 };
 
-export function AddMoreDialog({ userDetails }: { userDetails: any }) {
+export function AddMoreDialog({ memberId, selectedMenuIds }: { memberId: string; selectedMenuIds?: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -185,7 +207,7 @@ export function AddMoreDialog({ userDetails }: { userDetails: any }) {
           <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <AddMoreMenu userDetails={userDetails} />
+          <AddMoreMenu memberId={memberId} selectedMenuIds={selectedMenuIds} />
         </div>
       </DialogContent>
 
