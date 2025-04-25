@@ -16,7 +16,10 @@ const enum MealTime {
   Evening = 'Evening',
 }
 
-export const getCuisineDetails = (cuisineId: string): typeof cuisineList[0] | undefined => {
+export const getCuisineDetails = (cuisineId = ''): typeof cuisineList[0] | undefined => {
+  if (!cuisineId) {
+    return undefined; // Return undefined if no cuisineId is provided
+  }
   const cuisine = cuisineList.find(item => item.id === cuisineId.toString());
   return cuisine;
 };

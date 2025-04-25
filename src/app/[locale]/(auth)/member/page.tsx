@@ -1,16 +1,12 @@
 import { GenerateMenu } from '@/components/home/GenerateMenu';
-import { getGreeting, getMenuItem } from '@/components/home/utils';
+import { getGreeting } from '@/components/home/utils';
 import { SunSVG } from '@/components/icons/sun';
 import { db } from '@/libs/DB';
-import { menuListSchema, userActivitySchema, userListSchema } from '@/models/Schema';
+import { userListSchema } from '@/models/Schema';
 import { currentUser } from '@clerk/nextjs/server';
-import { desc, eq, inArray } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import Image from 'next/image';
 import Link from 'next/link';
-
-// type IAboutProps = {
-//   params: Promise<{ locale: string }>;
-// };
 
 export async function generateMetadata() {
   return {
@@ -62,23 +58,7 @@ export default async function MemberHome() {
     );
   }
 
-  const menu_ids = result.menu_ids; // Assuming menu_ids is a string of comma-separated IDs
-  const idsArray = menu_ids?.split(',').map(id => Number.parseInt(id.trim(), 10)) || []; // Convert to array of numbers
-
-  const menuListData = await db.query.menuListSchema.findMany({
-    where: inArray(menuListSchema.id, idsArray),
-    // where: eq(userListSchema.user_id, memberId.toString()),
-  });
-
-  const activityLimit = menuListData.length >= 10 ? 15 : menuListData.length; // Default to 15 if no menu items are found
-
-  const userActivity = await db.query.userActivitySchema.findMany({
-    where: eq(userActivitySchema.user_id, memberId),
-    orderBy: [desc(userActivitySchema.created_at)], // Sort by `created_at` in descending order
-    limit: activityLimit, // Limit to the last 10 activities
-  });
-
-  const item = getMenuItem(menuListData, userActivity) || {};
+  const menu_ids = result?.menu_ids; // Assuming menu_ids is a string of comma-separated IDs
 
   return (
     <>
@@ -91,7 +71,7 @@ export default async function MemberHome() {
             width={0}
             height="250"
             className="rounded-lg shadow-md w-full"
-            style={{ maxHeight: '220px', height: '250px' }}
+            style={{ maxHeight: '150px', height: '250px' }}
           />
           <div className="greeting-container absolute left-10 bottom-5 p-4">
             <div className="text-left text-2xl flex items-center gap-1">
@@ -104,7 +84,7 @@ export default async function MemberHome() {
           </div>
         </div>
         <div>
-          <GenerateMenu memberId={memberId} item={item} />
+          <GenerateMenu memberId={memberId} menuIds={menu_ids} />
         </div>
       </div>
     </>
