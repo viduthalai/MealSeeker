@@ -39,10 +39,10 @@ export function MobileBottomMenubar() {
   const [active, setActive] = React.useState(menu);
   const router = useRouter();
   const handleMenuClick = (a = 'home') => {
-    setActive(a);
     const url = a === 'home' ? `/member` : `/member/${a}`;
     router.push(url);
     router.refresh();
+    setActive(a);
   };
   return (
     <div className="fixed bottom-0 left-0 z-50 w-full border-t bg-background ">

@@ -9,8 +9,7 @@ const enum MealType {
   Dinner = 'Dinner',
 }
 
-// eslint-disable-next-line no-restricted-syntax
-const enum MealTime {
+enum MealTime {
   Morning = 'Morning',
   Afternoon = 'Afternoon',
   Evening = 'Evening',
@@ -26,6 +25,7 @@ export const getCuisineDetails = (cuisineId = ''): typeof cuisineList[0] | undef
 
 export const getMealTime = (): MealTime => {
   const hour = new Date().getHours();
+  console.log('🚀 ~ getMealTime ~ hour:', hour);
   if (hour < 12) {
     return MealTime.Morning;
   } else if (hour < 18) {
@@ -37,6 +37,7 @@ export const getMealTime = (): MealTime => {
 
 export function getGreeting(): string {
   const type = getMealTime();
+  console.log('🚀 ~ getGreeting ~ type:', type);
 
   if (type === MealTime.Morning) {
     return 'Good Morning';

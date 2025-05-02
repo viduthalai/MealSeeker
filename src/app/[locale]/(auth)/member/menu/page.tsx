@@ -9,12 +9,9 @@ export async function generateMetadata() {
 }
 
 export default async function MenuPage() {
+  console.log('🚀 ~ MenuPage ~ memberId:');
   const user = await currentUser();
   const memberId: string = user?.id || '';
-
-  if (!memberId) {
-    return null; // Handle the case where the user is not authenticated
-  }
 
   return (
     <>

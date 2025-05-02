@@ -209,6 +209,10 @@ export const UpdateMenu = ({
           </div>
         )}
       </div>
+      <br />
+      <br />
+      <br />
+      <br />
     </>
   );
 };

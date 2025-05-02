@@ -4,15 +4,20 @@ import type { MenuListItem } from '@/lib/constants';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChefHat } from 'lucide-react';
 import React, { useState } from 'react';
-import { getCuisineDetails, getMealTime, getMenuItem } from './utils';
+import { getCuisineDetails, getGreeting, getMealTime, getMenuItem } from './utils';
 
-export function GenerateMenu({ memberId, menuIds }: { memberId: string; menuIds: string }): React.ReactElement {
+export function GenerateMenu({ user, menuIds }: { user: {
+  memberId?: string;
+  firstName?: string;
+  lastName?: string;
+}; menuIds: string; }): React.ReactElement {
   const [revealed, setRevealed] = useState(false);
   const [cooked, setCooked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedDish, setSelectedDish] = useState<MenuListItem | null>(null);
   const isRare = true;
   const mealTime = getMealTime();
+  const memberId = user?.memberId?.toString() || '';
 
   const getMenuItems = async () => {
     setLoading(true);
@@ -88,7 +93,7 @@ export function GenerateMenu({ memberId, menuIds }: { memberId: string; menuIds:
   }
 
   const { mainCuisine = '', subCuisine = '' } = getCuisineDetails(selectedDish?.cuisine_id) || {};
-
+  console.log('🚀 ~ GenerateMenu ~ mainCuisine:', getGreeting());
   return (
     <>
       <div className="mt-5 p-4 mb-30  rounded shadow">

@@ -5,7 +5,6 @@ import { db } from '@/libs/DB';
 import { userListSchema } from '@/models/Schema';
 import { currentUser } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export async function generateMetadata() {
@@ -63,29 +62,15 @@ export default async function MemberHome() {
   return (
     <>
       <div>
-        <div className="relative">
-          <Image
-            src="/assets/images/member/homeHeader1.png"
-            alt="User Avatar"
-            layout="responsive"
-            width={0}
-            height="250"
-            className="rounded-lg shadow-md w-full"
-            style={{ maxHeight: '150px', height: '250px' }}
-          />
-          <div className="greeting-container absolute left-10 bottom-5 p-4">
-            <div className="text-left text-2xl flex items-center gap-1">
-              <SunSVG />
-              {getGreeting()}
-            </div>
-            <div className="mt-1 text-left font-bold text-2xl">
-              {`${user?.firstName}, ${user?.lastName}`}
-            </div>
-          </div>
-        </div>
-        <div>
-          <GenerateMenu memberId={memberId} menuIds={menu_ids} />
-        </div>
+
+        <GenerateMenu
+          user={{
+            firstName: user?.firstName || '',
+            lastName: user?.lastName || '',
+            memberId,
+          }}
+          menuIds={menu_ids}
+        />
       </div>
     </>
   );
